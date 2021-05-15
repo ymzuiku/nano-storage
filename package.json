@@ -1,6 +1,6 @@
 {
   "name": "nano-storage",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "private":false,
   "types": "lib/index.ts",
   "main": "es/index.js",
