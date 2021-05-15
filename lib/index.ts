@@ -1,10 +1,11 @@
-interface INanoStorage<T> {
+export interface INanoStorage<T> {
   initData: T;
   reinit: () => void;
   set: (obj: Partial<T>) => void;
+  data: T;
 }
 
-interface NanoDbOptions {
+export interface NanoDbOptions {
   storage?: "localStorage" | "sessionStorage";
   version?: string;
 }
@@ -19,23 +20,17 @@ export const NanoStorage = <T>(
     throw "NanoDb: init need a object";
   }
 
-  if ((init as any).set || (init as any).reinit || (init as any).initData) {
-    throw "NanoDb: init object can not use props: ['set', 'initData', 'reinit']";
-  }
-
-  const cache = JSON.parse(JSON.stringify(init));
   const db = {
+    data: JSON.parse(JSON.stringify(init)),
     initData: JSON.parse(JSON.stringify(init)),
     reinit: () => {
       const str = JSON.stringify(db.initData);
-      const cache = JSON.parse(str);
       window[storage].setItem(key, str);
-      Object.assign(db, cache);
+      Object.assign(db, JSON.parse(str));
     },
     set: (obj: T) => {
-      Object.assign(cache, obj);
-      Object.assign(db, obj);
-      window[storage].setItem(key, JSON.stringify(cache));
+      Object.assign(db.data, obj);
+      window[storage].setItem(key, JSON.stringify(db.data));
     },
   };
 

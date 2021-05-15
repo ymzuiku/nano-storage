@@ -22,12 +22,12 @@ const store = NanoStorage('user-data', {
   age: 20,
 });
 
-console.log(store.name); // "dog"
-console.log(store.age); // 20
+console.log(store.data.name); // "dog"
+console.log(store.data.age); // 20
 
 // 更新内容
 store.set({name:'fish'});
-console.log(store.name); // "fish"
+console.log(store.data.name); // "fish"
 
 // 还原初始化内容
 store.reinit();
