@@ -5,17 +5,11 @@ export interface INanoStorage<T> {
   data: T;
 }
 
-export interface NanoDbOptions {
-  storage?: "localStorage" | "sessionStorage";
-  version?: string;
-}
-
 export const NanoStorage = <T>(
   key: string,
   init: T,
-  { storage = "localStorage", version }: NanoDbOptions = {}
-): T & INanoStorage<T> => {
-  key = key + (version || NanoStorage.version);
+  storage: "localStorage" | "sessionStorage" = "localStorage"
+): INanoStorage<T> => {
   if (typeof init !== "object") {
     throw "NanoDb: init need a object";
   }
@@ -49,5 +43,3 @@ export const NanoStorage = <T>(
 
   return db as any;
 };
-
-NanoStorage.version = "";
