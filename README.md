@@ -6,7 +6,6 @@ nano storage 是一个简化的 localStorage 及 sessionStorage 方法
 
 - gzip 0.2kb, 仅仅是一个工具方法
 - 直接下标取值，取值直接走对象缓存
-- set 内容使用 Object.assign
 - 自动持久化
 - 支持 Typescript
 - 支持版本规划
@@ -17,20 +16,20 @@ NanoStorage 第一个参数是 storage 的 key，第二个参数是初始化对�
 
 ```js
 import { NanoStorage } from "nano-storage";
-const store = NanoStorage('user-data', {
+const store = NanoStorage('app_name', {
   name:'dog';
   age: 20,
 });
 
-console.log(store.data.name); // "dog"
-console.log(store.data.age); // 20
+console.log(store.val.name); // "dog"
+console.log(store.val.age); // 20
 
 // 更新内容
-store.set({name:'fish'});
-console.log(store.data.name); // "fish"
+store.assign({name:'fish'});
+console.log(store.val.name); // "fish"
 
 // 还原初始化内容
-store.reinit();
+store.set(store.defaultValues);
 ```
 
 ## 使用 sessionStorage

@@ -1,8 +1,8 @@
 export interface INanoStorage<T> {
-  initData: T;
-  reinit: () => void;
+  defaultValues: T;
   set: (obj: Partial<T>) => void;
-  data: T;
+  assign: (obj: Partial<T>) => void;
+  val: T;
 }
 
 export const NanoStorage = <T>(
@@ -15,16 +15,15 @@ export const NanoStorage = <T>(
   }
 
   const db = {
-    data: JSON.parse(JSON.stringify(init)),
-    initData: JSON.parse(JSON.stringify(init)),
-    reinit: () => {
-      const str = JSON.stringify(db.initData);
-      window[storage].setItem(key, str);
-      Object.assign(db, JSON.parse(str));
-    },
+    val: JSON.parse(JSON.stringify(init)),
+    defaultValues: JSON.parse(JSON.stringify(init)),
     set: (obj: T) => {
-      Object.assign(db.data, obj);
-      window[storage].setItem(key, JSON.stringify(db.data));
+      db.val = obj;
+      window[storage].setItem(key, JSON.stringify(db.val));
+    },
+    assign: (obj: T) => {
+      Object.assign(db.val, obj);
+      window[storage].setItem(key, JSON.stringify(db.val));
     },
   };
 
@@ -32,13 +31,13 @@ export const NanoStorage = <T>(
   if (old) {
     try {
       const obj = JSON.parse(old);
-      db.set(obj);
+      db.assign(obj);
     } catch (err) {
       console.error(err);
-      db.set(init);
+      db.assign(init);
     }
   } else {
-    db.set(init);
+    db.assign(init);
   }
 
   return db as any;

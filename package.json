@@ -1,11 +1,11 @@
 {
   "name": "nano-storage",
-  "version": "1.1.2",
-  "private":false,
+  "version": "1.2.0",
+  "private": false,
   "types": "lib/index.ts",
   "main": "es/index.js",
   "scripts": {
-    "es":"esbuild --define:process.env.NODE_ENV=\\\"production\\\" lib/index.* --outdir=es --target=es6 --bundle --format=esm --jsx-factory=aoife --jsx-fragment=aoife.Frag --minify --splitting"
+    "es": "esbuild --define:process.env.NODE_ENV=\\\"production\\\" lib/index.* --outdir=es --target=es6 --bundle --format=esm --jsx-factory=aoife --jsx-fragment=aoife.Frag --minify --splitting"
   },
   "repository": {
     "type": "git",
