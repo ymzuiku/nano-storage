@@ -29,7 +29,7 @@ store.assign({name:'fish'});
 console.log(store.val.name); // "fish"
 
 // 还原初始化内容
-store.set(store.defaultValues);
+store.clear();
 ```
 
 ## 使用 sessionStorage

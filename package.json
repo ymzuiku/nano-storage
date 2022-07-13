@@ -1,11 +1,16 @@
 {
   "name": "nano-storage",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "private": false,
   "types": "lib/index.ts",
-  "main": "es/index.js",
+  "exports": {
+    "import": "./lib/index.ts",
+    "require": "./cjs/index.js"
+  },
   "scripts": {
-    "es": "esbuild --define:process.env.NODE_ENV=\\\"production\\\" lib/index.* --outdir=es --target=es6 --bundle --format=esm --jsx-factory=aoife --jsx-fragment=aoife.Frag --minify --splitting"
+    "esm": "esbuild --define:process.env.NODE_ENV=\\\"production\\\" lib/index.ts --outdir=esm --target=es6  --bundle --external:react --external:react-ob --format=esm --minify --splitting",
+    "cjs": "esbuild --define:process.env.NODE_ENV=\\\"production\\\" lib/index.ts --outdir=cjs --target=es6  --bundle --external:react --external:react-ob --format=cjs --minify",
+    "build": "yarn cjs"
   },
   "repository": {
     "type": "git",
