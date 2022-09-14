@@ -9,7 +9,7 @@ export interface INanoStorage<T> {
 export const NanoStorage = <T>(
   key: string,
   init: T,
-  storage: "localStorage" | "sessionStorage" = "localStorage",
+  storage: "localStorage" | "sessionStorage" | "memory" = "localStorage"
 ): INanoStorage<T> => {
   if (typeof init !== "object") {
     throw "NanoDb: init need a object";
@@ -20,24 +20,30 @@ export const NanoStorage = <T>(
     defaultValues: JSON.parse(JSON.stringify(init)),
     set: (obj: T) => {
       db.val = obj;
-      window[storage].setItem(key, JSON.stringify(db.val));
+      if (storage !== "memory") {
+        window[storage].setItem(key, JSON.stringify(db.val));
+      }
     },
     assign: (obj: T) => {
       Object.assign(db.val, obj);
-      window[storage].setItem(key, JSON.stringify(db.val));
+      if (storage !== "memory") {
+        window[storage].setItem(key, JSON.stringify(db.val));
+      }
     },
     clear: () => {
       db.set({ ...db.defaultValues });
     },
   };
 
-  const old = window[storage].getItem(key);
-  if (old) {
-    try {
-      const obj = JSON.parse(old);
-      db.assign(obj);
-    } catch (err) {
-      console.error(err);
+  if (storage !== "memory") {
+    const old = window[storage].getItem(key);
+    if (old) {
+      try {
+        const obj = JSON.parse(old);
+        db.assign(obj);
+      } catch (err) {
+        console.error(err);
+      }
     }
   }
 
